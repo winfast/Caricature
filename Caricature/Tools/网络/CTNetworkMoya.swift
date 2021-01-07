@@ -46,6 +46,7 @@ enum CTNetworkString : String {
 	case comicListPath = "list/commonComicList"
 	case detailStaticPath = "comic/detail_static_new"  //基本详情
 	case detailRealtimePath = "comic/detail_realtime"
+    case commentListPath = "comment/list"
 }
 
 
@@ -60,6 +61,7 @@ enum CTNetworkMoya {
 	case comicList(param: [String : Any])
 	case detailStatic(param: [String : Any])
 	case detailRealtime(param: [String : Any])
+    case commentList(param: [String : Any])
 }
 
 //添加Header
@@ -100,12 +102,14 @@ extension CTNetworkMoya : TargetType {
 			return CTNetworkString.rankListPath.rawValue
 		case .cateList:
 			return CTNetworkString.cateListPath.rawValue
-		case .comicList:
-			return CTNetworkString.comicListPath.rawValue
-		case .detailStatic:
-			return CTNetworkString.detailStaticPath.rawValue
-		case .detailRealtime:
-		return CTNetworkString.detailRealtimePath.rawValue
+        case .comicList:
+            return CTNetworkString.comicListPath.rawValue
+        case .detailStatic:
+            return CTNetworkString.detailStaticPath.rawValue
+        case .detailRealtime:
+            return CTNetworkString.detailRealtimePath.rawValue
+        case .commentList:
+            return CTNetworkString.commentListPath.rawValue;
 		default:
 			return ""
 		}
@@ -128,7 +132,7 @@ extension CTNetworkMoya : TargetType {
 			parammter = param
 		case let .boutiqueListPath(param: param):
 			parammter = param
-		case let .vipList(param: param), let .rankList(param: param), let .cateList(param: param), let .searchResult(param: param), let .comicList(param: param), let .detailStatic(param: param), let .detailRealtime(param: param):
+        case let .vipList(param: param), let .rankList(param: param), let .cateList(param: param), let .searchResult(param: param), let .comicList(param: param), let .detailStatic(param: param), let .detailRealtime(param: param), let .commentList(param: param):
 			parammter = param
 		default:
 			parammter = [:]

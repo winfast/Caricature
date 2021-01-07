@@ -86,7 +86,49 @@ class CTOtherWorkCellViewModel: NSObject {
 			weakself.passChapterNum = value
 		}).disposed(by: bag)
 	}
-	
+}
+
+class CTCommentCellViewModel: NSObject {
+    
+    @objc dynamic var face: String?
+    @objc dynamic var content_filter: String?
+    @objc dynamic var nickname: String?
+    
+    @objc dynamic fileprivate var model : CTComicCommnetModel?
+    
+    private var bag : DisposeBag = DisposeBag.init()
+    
+    init(currModel: CTComicCommnetModel) {
+        super.init()
+        self.model = currModel
+        self.createSignals()
+    }
+    
+    func createSignals() -> Void {
+        self.rx.observeWeakly(String.self, "model.face").distinctUntilChanged().subscribe(onNext: { [weak self] (value) in
+            guard let weakself = self else {
+                return
+            }
+            
+            weakself.face = value
+        }).disposed(by: bag)
+        
+        self.rx.observeWeakly(String.self, "model.nickname").distinctUntilChanged().subscribe(onNext: { [weak self] (value) in
+            guard let weakself = self else {
+                return
+            }
+            
+            weakself.nickname = value
+        }).disposed(by: bag)
+        
+        self.rx.observeWeakly(String.self, "model.content_filter").distinctUntilChanged().subscribe(onNext: { [weak self] (value) in
+            guard let weakself = self else {
+                return
+            }
+            
+            weakself.content_filter = value
+        }).disposed(by: bag)
+    }
 }
 
 class CTComicDetaiInfoViewModel: NSObject {
@@ -95,6 +137,7 @@ class CTComicDetaiInfoViewModel: NSObject {
 	@objc dynamic var workDescription : String?
 	@objc dynamic var wideCover : String?
 	@objc dynamic var cover : String?
+    @objc dynamic var thread_id: String?
 	
 	@objc dynamic var monthly_ticket : Int = 0 //本月月票
 	@objc dynamic var click_total: String? //总点击数
@@ -115,9 +158,9 @@ class CTComicDetailViewModel: NSObject {
 	@objc dynamic var comicOtherWorkingDataSource: Array<CTOtherWorkCellViewModel>?
 	
 	@objc dynamic var comicChapterDataSource : Array<CTChapterCellViewModel>?
+    
+    @objc dynamic var comicCommentDataSource : Array<Any>?
 
-//
-//	var commentViewModel:
 	
 	func comicDetail(param: [String : Any]) -> Observable<Void?> {
 		return Observable<Void?>.create { (observable) -> Disposable in
@@ -152,6 +195,27 @@ class CTComicDetailViewModel: NSObject {
 			return Disposables.create()
 		}
 	}
+    
+    func comicCommentList(param: [String : Any]) -> Observable<Void?> {
+        return Observable<Void?>.create { (observable) -> Disposable in
+            self.provider.request(.commentList(param: param)) { [weak self] (response) in
+                
+                guard let weakself = self else {
+                    return
+                }
+                
+                switch response {
+                case let .success(result):
+                    weakself.paramComicCommentListData(result.data)
+                    observable.onNext(nil)
+                    observable.onCompleted()
+                case let.failure(error):
+                    observable.onError(error)
+                }
+            }
+            return Disposables.create()
+        }
+    }
 	
 	func paramComicDetailData(_ data : Data) -> Void {
 		let json = JSON.init(data)
@@ -168,6 +232,7 @@ class CTComicDetailViewModel: NSObject {
 		let comicDeatailModel = CTComicDetailModel.init(dict: comicDetail)
 		
 		self.comicDetaiInfoViewModel.name = comicDeatailModel.name
+        self.comicDetaiInfoViewModel.thread_id = comicDeatailModel.thread_id;
 		self.comicDetaiInfoViewModel.authorName = comicDeatailModel.author?.name
 		self.comicDetaiInfoViewModel.workDescription = "【" + comicDeatailModel.cate_id! +  "】" + comicDeatailModel.descriptionValue!
 		self.comicDetaiInfoViewModel.wideCover = comicDeatailModel.wideCover
@@ -195,10 +260,6 @@ class CTComicDetailViewModel: NSObject {
 		self.comicChapterDataSource = chapterListArray?.map({ (model) -> CTChapterCellViewModel in
 			return CTChapterCellViewModel.init(currModel: model)
 		})
-		
-//		let comicListsModel : [CTComicListModel]? = (comicLists?.map({ (item) -> CTComicListModel in
-//			return CTComicListModel.init(dict: item as! [String : Any])
-//		}))
 	}
 	
 	
@@ -211,14 +272,7 @@ class CTComicDetailViewModel: NSObject {
 		if stateCode == nil || stateCode != 1 {
 			return
 		}
-		
-		/*
-		@objc dynamic var monthly_ticket : Int = 0 //本月月票
-		@objc dynamic var click_total: String? //总点击数
-		@objc dynamic var total_ticket: Int = 0 //累计月票
-		@objc dynamic var favorite_total: Int = 0 //收藏
-		*/
-		
+
 		let returnDataDict: [String:Any]? = dataDict?["returnData"] as? [String:Any]
 		let comicDetail : [String:Any]? = returnDataDict?["comic"] as? [String:Any]
 		let comicDetailRealtimeModel = CTComicDetailRealtimeModel.init(dict: comicDetail)
@@ -226,6 +280,25 @@ class CTComicDetailViewModel: NSObject {
 		self.comicDetaiInfoViewModel.click_total = comicDetailRealtimeModel.click_total
 		self.comicDetaiInfoViewModel.total_ticket = comicDetailRealtimeModel.total_ticket
 		self.comicDetaiInfoViewModel.favorite_total = comicDetailRealtimeModel.favorite_total
-		
 	}
+    
+    func paramComicCommentListData(_ data : Data) -> Void {
+        let json = JSON.init(data)
+        print(json)
+        let dicts: [String: Any]? = json.dictionaryObject
+        let dataDict : [String : Any]? = dicts?["data"] as? [String: Any];
+        let stateCode : Int? = dataDict?["stateCode"] as? Int
+        if stateCode == nil || stateCode != 1 {
+            return
+        }
+        
+        let returnDataDict: [String:Any]? = dataDict?["returnData"] as? [String:Any]
+        let comicComment : [[String:Any]]? = returnDataDict?["commentList"] as? [[String:Any]]
+        
+        let commentList = comicComment?.map({ (item) -> CTComicCommnetModel in
+            return CTComicCommnetModel.init(dict: item)
+        })
+        
+        
+    }
 }

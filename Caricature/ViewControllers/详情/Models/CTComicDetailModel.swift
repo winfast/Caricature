@@ -176,3 +176,17 @@ class CTComicDetailRealtimeModel: NSObject {
 		self.vip_discount = dict?["vip_discount"] as? Float ?? 0.0
 	}
 }
+
+
+class CTComicCommnetModel: NSObject {
+    @objc dynamic var face: String?
+    @objc dynamic var content_filter: String?
+    @objc dynamic var nickname: String?
+    
+    init(dict: [String:Any]?) {
+        super.init()
+        self.face = dict?["face"] as? String ?? nil
+        self.content_filter = dict?["content_filter"] as? String ?? nil
+        self.nickname = dict?["nickname"] as? String ?? nil
+    }
+}

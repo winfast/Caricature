@@ -6,15 +6,122 @@
 //
 
 import UIKit
+import JXPagingView
+import MJRefresh
+
 
 class CTComicCommentView: UIView {
+    
+    let tableView : UITableView = UITableView.init(frame: .zero, style: .grouped)
+    
+    var listViewDidScrollCallback: ((UIScrollView) -> ())?
+    
+    fileprivate var viewModel : CTComicDetailViewModel?
 
-    /*
-    // Only override draw() if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func draw(_ rect: CGRect) {
-        // Drawing code
+    convenience init(currViewMode: CTComicDetailViewModel) {
+        self.init(frame: .zero)
+        self.viewModel = currViewMode
+        self.viewsLayout()
     }
-    */
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    func viewsLayout() -> Void {
+        tableView.backgroundColor = CTBackgroundColor()
+        tableView.tableFooterView = UIView()
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.estimatedRowHeight = 44
+        tableView.tableHeaderView = UIView.init(frame: CGRect.init(x: 0.0, y: 0.0, width: 0.0, height: .leastNormalMagnitude))
+        tableView.register(CTCommentTableViewCell.self, forCellReuseIdentifier: "CTCommentTableViewCell")
+        self.addSubview(tableView)
+        self.tableView.snp.makeConstraints { (make) in
+            make.edges.equalTo(0)
+        }
+    }
+    
+    func reloadData() -> Void {
+        self.tableView.reloadData()
+    }
+}
 
+extension CTComicCommentView : UITableViewDelegate, UITableViewDataSource {
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 4
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        return UITableViewCell.init()
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        if section == 0 {
+            return nil
+        } else {
+            let view = UIView.init()
+            view.backgroundColor = .clear
+            return view
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        if section == 0 {
+            return 0
+        } else {
+            return 10
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return 0
+    }
+    
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        return nil
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        self.listViewDidScrollCallback?(scrollView)
+    }
+}
+
+extension CTComicCommentView: JXPagingViewListViewDelegate {
+    func listView() -> UIView {
+        return self
+    }
+
+    func listViewDidScrollCallback(callback: @escaping (UIScrollView) -> ()) {
+        self.listViewDidScrollCallback = callback
+    }
+
+    func listScrollView() -> UIScrollView {
+        return self.tableView
+    }
+
+    func listWillAppear() {
+        print("listWillAppear")
+    }
+
+    func listDidAppear() {
+        print("listDidAppear")
+    }
+
+    func listWillDisappear() {
+        print("listWillDisappear")
+    }
+
+    func listDidDisappear() {
+        print("listDidDisappear")
+    }
 }

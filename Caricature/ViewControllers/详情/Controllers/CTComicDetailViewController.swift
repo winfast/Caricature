@@ -36,6 +36,7 @@ class CTComicDetailViewController: HZBaseViewController {
 	private var comicId : Int = 0
 	private var comicDetailView : CTComicDetailView?
 	private var comicCatalogView : CTComicCatalogView?
+    private var comicCommentView : CTComicCommentView?
 	
 	convenience init(comicid: Int) {
 		self.init()
@@ -73,6 +74,7 @@ class CTComicDetailViewController: HZBaseViewController {
 		
 		self.comicDetailView = CTComicDetailView.init(currViewMode: self.viewModel)
 		self.comicCatalogView = CTComicCatalogView.init(currViewMode: self.viewModel)
+        self.comicCommentView = CTComicCommentView.init(currViewMode: self.viewModel)
 		
 		dataSource.titles = titles
 		dataSource.titleSelectedColor = UIColor(red: 127/255, green: 221/255, blue: 146/255, alpha: 1)
@@ -124,10 +126,10 @@ class CTComicDetailViewController: HZBaseViewController {
 		
 		group.enter()
 		self.viewModel.comicDetail(param: param).subscribe(onNext: {(_) in
-//			guard let weakself = self else {
-//				return
-//			}
 			group.leave()
+            //获取评论列表
+            self.commentReqeust()
+            
 		}).disposed(by: bag)
 		
 		group.enter()
@@ -141,6 +143,13 @@ class CTComicDetailViewController: HZBaseViewController {
 			self.comicDetailView?.reloadData()
 		}
 	}
+    
+    func commentReqeust() -> Void {
+        let commentDicty : [String : Any] = ["object_id":self.comicId,"thread_id":self.viewModel.comicDetaiInfoViewModel.thread_id ?? 0,"page":1]
+        self.viewModel.comicCommentList(param: commentDicty).subscribe { (_) in
+            
+        }.disposed(by: bag)
+    }
 	
 	func pagingView(_ pagingView: JXPagingView, mainTableViewDidScroll scrollView: UIScrollView) {
 		let thresholdDistance: CGFloat = 100
@@ -188,9 +197,11 @@ extension CTComicDetailViewController: JXPagingViewDelegate {
 			return self.comicDetailView!
 		} else if 1 == index {
 			return self.comicCatalogView!
-		}
+        } else {
+            return self.comicCommentView!
+        }
 		
-		return self.comicDetailView!
+//		return self.comicDetailView!
 	}
 }
 
