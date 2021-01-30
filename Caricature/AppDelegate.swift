@@ -25,8 +25,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		let tabBarController = HZTabBarController.init()
 		self.window?.rootViewController = tabBarController
 		self.window?.makeKeyAndVisible()
-		
-		
 	}
 	
 	
@@ -37,8 +35,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		IQKeyboardManager.shared.shouldResignOnTouchOutside = true
 		//IQKeyboardManager.shared.disabledToolbarClasses = [HZHomeDetailViewController.Type]()
 	}
-
-	// MARK: UISceneSession Lifecycle
-
 }
 

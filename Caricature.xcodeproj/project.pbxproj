@@ -32,6 +32,7 @@
 		04770BC4255BE4CF00E8BB6C /* CTLikeComicTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04770BC3255BE4CF00E8BB6C /* CTLikeComicTableViewCell.swift */; };
 		0477E4AB255B6CBD003D748D /* CTComicDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0477E4AA255B6CBD003D748D /* CTComicDetailViewModel.swift */; };
 		04795EF625522B27004270E4 /* CTNetworkMoya.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04795EF525522B27004270E4 /* CTNetworkMoya.swift */; };
+		048FD1F625C52EBE00B6AE66 /* CTCommentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048FD1F525C52EBE00B6AE66 /* CTCommentTableViewCell.swift */; };
 		049E48F525541F2800EE5B20 /* CTSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049E48F425541F2800EE5B20 /* CTSettingViewController.swift */; };
 		04A81B902553D77E00188392 /* CTRefreshTipFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A81B8F2553D77E00188392 /* CTRefreshTipFooter.swift */; };
 		04A81BAD2553E67D00188392 /* CTRecommentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A81B9A2553E67D00188392 /* CTRecommentViewModel.swift */; };
@@ -100,6 +101,7 @@
 		04770BC3255BE4CF00E8BB6C /* CTLikeComicTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CTLikeComicTableViewCell.swift; sourceTree = "<group>"; };
 		0477E4AA255B6CBD003D748D /* CTComicDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CTComicDetailViewModel.swift; sourceTree = "<group>"; };
 		04795EF525522B27004270E4 /* CTNetworkMoya.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CTNetworkMoya.swift; sourceTree = "<group>"; };
+		048FD1F525C52EBE00B6AE66 /* CTCommentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CTCommentTableViewCell.swift; sourceTree = "<group>"; };
 		049E48F425541F2800EE5B20 /* CTSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CTSettingViewController.swift; sourceTree = "<group>"; };
 		04A81B8F2553D77E00188392 /* CTRefreshTipFooter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CTRefreshTipFooter.swift; sourceTree = "<group>"; };
 		04A81B9A2553E67D00188392 /* CTRecommentViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CTRecommentViewModel.swift; sourceTree = "<group>"; };
@@ -260,6 +262,7 @@
 				04770BC0255BE4BF00E8BB6C /* CTWorkingDesTableViewCell.swift */,
 				04770BC3255BE4CF00E8BB6C /* CTLikeComicTableViewCell.swift */,
 				042AFF1B2560B78A005226A1 /* CTComicCotalogCollectionViewCell.swift */,
+				048FD1F525C52EBE00B6AE66 /* CTCommentTableViewCell.swift */,
 			);
 			path = "详情Cell";
 			sourceTree = "<group>";
@@ -680,6 +683,7 @@
 				044E5B81254814BC007B4FF2 /* HZConstant.swift in Sources */,
 				04E775082554ED84003A36AF /* CTSearchViewController.swift in Sources */,
 				044E5B7B254814BC007B4FF2 /* HZScreen.swift in Sources */,
+				048FD1F625C52EBE00B6AE66 /* CTCommentTableViewCell.swift in Sources */,
 				044E5B64254813E6007B4FF2 /* HZTabBarController.swift in Sources */,
 				04A81BAE2553E67D00188392 /* CTVIPViewModel.swift in Sources */,
 				044E5B62254813E6007B4FF2 /* HZBaseViewController.swift in Sources */,

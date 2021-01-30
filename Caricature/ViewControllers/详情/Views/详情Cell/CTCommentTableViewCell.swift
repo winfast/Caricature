@@ -2,26 +2,44 @@
 //  CTCommentTableViewCell.swift
 //  Caricature
 //
-//  Created by Qincc on 2021/1/7.
+//  Created by Qincc on 2021/1/30.
 //
 
 import UIKit
-import Kingfisher
 
 class CTCommentTableViewCell: UITableViewCell {
+    lazy var userIconImageView: UIImageView = {
+        let imageView = UIImageView.init()
+        imageView.layer.cornerRadius = 16
+        imageView.layer.masksToBounds = true
+        return imageView
+    }()
     
-    var cellViewModel : CTCommentCellViewModel?
+    lazy var userNameLabel: UILabel = {
+        let label = UILabel.init()
+        label.textColor = .gray
+        label.font = HZFont(fontSize: 14)
+        label.textAlignment = .left
+        return label
+    }()
     
-    var userIconImageView : UIImageView?
-    var userNameLabel : UILabel?
-    var userContentLabel : UILabel?
+    lazy var commentContentLabel: UILabel = {
+        let label = UILabel.init()
+        label.textColor = .black
+        label.font = HZFont(fontSize: 14)
+        label.textAlignment = .left
+        return label
+    }()
     
-    var bag : DisposeBag = DisposeBag()
+    lazy var lineView: UIView = {
+        let view : UIView = UIView.init()
+        view.backgroundColor = .lightGray
+        return view
+    }()
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.viewsLayout()
-        self.createSignals()
     }
     
     required init?(coder: NSCoder) {
@@ -29,29 +47,17 @@ class CTCommentTableViewCell: UITableViewCell {
     }
     
     func viewsLayout() -> Void {
-        self.userIconImageView = UIImageView.init()
-        self.userIconImageView?.backgroundColor = .clear
-        self.contentView.addSubview(self.userIconImageView!);
-        self.userIconImageView?.snp.makeConstraints({ (make) in
-            
-        })
-    }
-    
-    func createSignals() -> Void {
-        self.rx.observeWeakly(String.self, "cellViewModel.face").distinctUntilChanged().filter({ (value) -> Bool in
-            guard let _ = value else  {
-                return false
-            }
-            return true
-        }).subscribe(onNext: { [weak self] (value) in
-            guard let weakself = self else {
-                return
-            }
-
-            weakself.userIconImageView?.kf.setImage(with: URL.init(string: value!))
-        }).disposed(by: bag)
+        self.contentView.addSubview(self.userIconImageView)
+        self.userIconImageView.snp.makeConstraints { (make) in
+            make.left.equalTo(12)
+            make.top.equalTo(8)
+            make.size.equalTo(CGSize.init(width: 32, height: 32))
+        }
         
-        self.rx.observeWeakly(String.self, "cellViewModel.content_filter").distinctUntilChanged().bind(to: self.userContentLabel!.rx.text).disposed(by: bag)
-        self.rx.observeWeakly(String.self, "cellViewModel.nickname").distinctUntilChanged().bind(to: self.userNameLabel!.rx.text).disposed(by: bag)
+        self.contentView.addSubview(self.userNameLabel)
+        self.userNameLabel.snp.makeConstraints { (make) in
+            make.top.equalTo(self.userIconImageView.snp.top)
+            make.left.equalTo(self.userIconImageView.snp.right).offset(8);
+        }
     }
 }
