@@ -65,7 +65,7 @@ class HZTabBarController: UITabBarController {
 		var viewControllers: Array<UIViewController> = Array.init()
 		for index in 0..<vcNamesArray.count {
 			let appName = Bundle.main.infoDictionary!["CFBundleExecutable"] as! String
-			let cls = NSClassFromString(appName + "." + vcNamesArray[index]) as! HZBaseViewController.Type
+			let cls = NSClassFromString(appName + "." + vcNamesArray[index]) as! UIViewController.Type
 			let vc:UIViewController! = cls.init();
 			let barItem = UITabBarItem(title: itemTitlesArray[index], image: UIImage.init(named: icon_normalsArray[index])?.withRenderingMode(.alwaysOriginal), selectedImage: UIImage.init(named: icon_selectedsArray[index])?.withRenderingMode(.alwaysOriginal))
 			vc.tabBarItem = barItem

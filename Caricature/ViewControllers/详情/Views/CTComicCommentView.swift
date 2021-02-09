@@ -47,14 +47,14 @@ class CTComicCommentView: UIView {
         }
     }
     
-    func reloadData() -> Void {
+    open func reloadData() -> Void {
         self.tableView.reloadData()
     }
 }
 
 extension CTComicCommentView : UITableViewDelegate, UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 4
+        return self.viewModel!.comicCommentDataSource?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -62,6 +62,8 @@ extension CTComicCommentView : UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "CTCommentTableViewCell") as! CTCommentTableViewCell
+        cell.cellViewModel = self.viewModel?.comicCommentDataSource![indexPath.row]
         return UITableViewCell.init()
     }
     
@@ -76,11 +78,7 @@ extension CTComicCommentView : UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        if section == 0 {
-            return 0
-        } else {
-            return 10
-        }
+        return section == 0 ? 0 : 15
     }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {

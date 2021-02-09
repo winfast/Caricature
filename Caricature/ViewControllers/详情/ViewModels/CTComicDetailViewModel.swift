@@ -159,7 +159,7 @@ class CTComicDetailViewModel: NSObject {
 	
 	@objc dynamic var comicChapterDataSource : Array<CTChapterCellViewModel>?
     
-    @objc dynamic var comicCommentDataSource : Array<Any>?
+    @objc dynamic var comicCommentDataSource : Array<CTCommentCellViewModel>?
 
 	
 	func comicDetail(param: [String : Any]) -> Observable<Void?> {
@@ -219,7 +219,6 @@ class CTComicDetailViewModel: NSObject {
 	
 	func paramComicDetailData(_ data : Data) -> Void {
 		let json = JSON.init(data)
-		print(json)
 		let dicts: [String: Any]? = json.dictionaryObject
 		let dataDict : [String : Any]? = dicts?["data"] as? [String: Any];
 		let stateCode : Int? = dataDict?["stateCode"] as? Int
@@ -265,7 +264,6 @@ class CTComicDetailViewModel: NSObject {
 	
 	func paramComicDetailRealtimeData(_ data : Data) -> Void {
 		let json = JSON.init(data)
-		print(json)
 		let dicts: [String: Any]? = json.dictionaryObject
 		let dataDict : [String : Any]? = dicts?["data"] as? [String: Any];
 		let stateCode : Int? = dataDict?["stateCode"] as? Int
@@ -299,6 +297,8 @@ class CTComicDetailViewModel: NSObject {
             return CTComicCommnetModel.init(dict: item)
         })
         
-        
+        self.comicCommentDataSource = commentList?.map({ (item) -> CTCommentCellViewModel in
+            return CTCommentCellViewModel.init(currModel: item)
+        })
     }
 }

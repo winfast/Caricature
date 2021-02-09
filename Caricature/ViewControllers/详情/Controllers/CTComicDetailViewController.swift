@@ -146,8 +146,12 @@ class CTComicDetailViewController: HZBaseViewController {
     
     func commentReqeust() -> Void {
         let commentDicty : [String : Any] = ["object_id":self.comicId,"thread_id":self.viewModel.comicDetaiInfoViewModel.thread_id ?? 0,"page":1]
-        self.viewModel.comicCommentList(param: commentDicty).subscribe { (_) in
+        self.viewModel.comicCommentList(param: commentDicty).subscribe { [weak self] (_) in
+            guard let weakself = self else {
+                return
+            }
             
+            weakself.comicCommentView?.reloadData()
         }.disposed(by: bag)
     }
 	

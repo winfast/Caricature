@@ -8,6 +8,9 @@
 import UIKit
 
 class CTCommentTableViewCell: UITableViewCell {
+    
+    var cellViewModel : CTCommentCellViewModel?
+    
     lazy var userIconImageView: UIImageView = {
         let imageView = UIImageView.init()
         imageView.layer.cornerRadius = 16
@@ -58,6 +61,21 @@ class CTCommentTableViewCell: UITableViewCell {
         self.userNameLabel.snp.makeConstraints { (make) in
             make.top.equalTo(self.userIconImageView.snp.top)
             make.left.equalTo(self.userIconImageView.snp.right).offset(8);
+        }
+        
+        self.contentView.addSubview(self.commentContentLabel)
+        self.commentContentLabel.snp.makeConstraints { (make) in
+            make.top.equalTo(self.userNameLabel.snp.bottom).offset(16)
+            make.left.equalTo(self.userIconImageView.snp.right).offset(8)
+            make.right.equalTo(self.contentView.snp.right).offset(-12)
+            make.bottom.lessThanOrEqualTo(self.contentView.snp.bottom).offset(-16).priority(900);
+        }
+        
+        self.contentView.addSubview(self.lineView);
+        self.lineView.snp.makeConstraints { (make) in
+            make.bottom.right.equalTo(0)
+            make.left.equalTo(16)
+            make.height.equalTo(0.5)
         }
     }
 }
