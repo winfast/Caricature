@@ -131,6 +131,49 @@ class CTCommentCellViewModel: NSObject {
     }
 }
 
+class CTGuessLikeComicCellViewModel: NSObject {
+    
+    @objc dynamic var cover: String?
+    @objc dynamic var name: String?
+    @objc dynamic var comic_id: String?
+    
+    @objc dynamic fileprivate var model : CTComicGuessLikeModel?
+    
+    private var bag : DisposeBag = DisposeBag.init()
+    
+    init(currModel: CTComicGuessLikeModel) {
+        super.init()
+        self.model = currModel
+        self.createSignals()
+    }
+    
+    func createSignals() -> Void {
+        self.rx.observeWeakly(String.self, "model.cover").distinctUntilChanged().subscribe(onNext: { [weak self] (value) in
+            guard let weakself = self else {
+                return
+            }
+            
+            weakself.cover = value
+        }).disposed(by: bag)
+        
+        self.rx.observeWeakly(String.self, "model.name").distinctUntilChanged().subscribe(onNext: { [weak self] (value) in
+            guard let weakself = self else {
+                return
+            }
+            
+            weakself.name = value
+        }).disposed(by: bag)
+        
+        self.rx.observeWeakly(String.self, "model.comic_id").distinctUntilChanged().subscribe(onNext: { [weak self] (value) in
+            guard let weakself = self else {
+                return
+            }
+            
+            weakself.comic_id = value
+        }).disposed(by: bag)
+    }
+}
+
 class CTComicDetaiInfoViewModel: NSObject {
 	@objc dynamic var name : String?
 	@objc dynamic var authorName : String?
@@ -153,13 +196,15 @@ class CTComicDetailViewModel: NSObject {
 	//static let share = CTHomeNetworkManager.init()
 	private let provider = MoyaProvider<CTNetworkMoya>.init(requestClosure: timeoutClosure)
 
-	var comicDetaiInfoViewModel : CTComicDetaiInfoViewModel = CTComicDetaiInfoViewModel.init()
+    @objc var comicDetaiInfoViewModel : CTComicDetaiInfoViewModel = CTComicDetaiInfoViewModel.init()
 	
 	@objc dynamic var comicOtherWorkingDataSource: Array<CTOtherWorkCellViewModel>?
 	
 	@objc dynamic var comicChapterDataSource : Array<CTChapterCellViewModel>?
     
     @objc dynamic var comicCommentDataSource : Array<CTCommentCellViewModel>?
+    
+    @objc dynamic var guessLikeComicDataSource: [CTGuessLikeComicCellViewModel]?
 
 	
 	func comicDetail(param: [String : Any]) -> Observable<Void?> {
@@ -207,6 +252,26 @@ class CTComicDetailViewModel: NSObject {
                 switch response {
                 case let .success(result):
                     weakself.paramComicCommentListData(result.data)
+                    observable.onNext(nil)
+                    observable.onCompleted()
+                case let.failure(error):
+                    observable.onError(error)
+                }
+            }
+            return Disposables.create()
+        }
+    }
+    
+    func guessLikeComicList() -> Observable<Void?> {
+        return Observable<Void?>.create { (observable) -> Disposable in
+            self.provider.request(.guessLike) { [weak self] (response) in
+                guard let weakself = self else {
+                    return
+                }
+                
+                switch response {
+                case let .success(result):
+                    weakself.paramGuessLikeComicList(result.data)
                     observable.onNext(nil)
                     observable.onCompleted()
                 case let.failure(error):
@@ -282,7 +347,6 @@ class CTComicDetailViewModel: NSObject {
     
     func paramComicCommentListData(_ data : Data) -> Void {
         let json = JSON.init(data)
-        print(json)
         let dicts: [String: Any]? = json.dictionaryObject
         let dataDict : [String : Any]? = dicts?["data"] as? [String: Any];
         let stateCode : Int? = dataDict?["stateCode"] as? Int
@@ -299,6 +363,28 @@ class CTComicDetailViewModel: NSObject {
         
         self.comicCommentDataSource = commentList?.map({ (item) -> CTCommentCellViewModel in
             return CTCommentCellViewModel.init(currModel: item)
+        })
+    }
+    
+    func paramGuessLikeComicList(_ data: Data) -> Void {
+        let json = JSON.init(data)
+        print(json)
+        let dicts: [String: Any]? = json.dictionaryObject
+        let dataDict : [String : Any]? = dicts?["data"] as? [String: Any];
+        let stateCode : Int? = dataDict?["stateCode"] as? Int
+        if stateCode == nil || stateCode != 1 {
+            return
+        }
+        
+        let returnDataDict: [String:Any]? = dataDict?["returnData"] as? [String:Any]
+        let guessLikeList : [[String:Any]]? = returnDataDict?["comics"] as? [[String:Any]]
+        
+        let commentList = guessLikeList?.map({ (item) -> CTComicGuessLikeModel in
+            return CTComicGuessLikeModel.init(dict: item)
+        })
+        
+        self.guessLikeComicDataSource = commentList?.map({ (item) -> CTGuessLikeComicCellViewModel in
+            return CTGuessLikeComicCellViewModel.init(currModel: item)
         })
     }
 }

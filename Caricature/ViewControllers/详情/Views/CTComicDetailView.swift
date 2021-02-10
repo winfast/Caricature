@@ -14,6 +14,8 @@ class CTComicDetailView: UIView {
 	let tableView : UITableView = UITableView.init(frame: .zero, style: .grouped)
 	
 	var listViewDidScrollCallback: ((UIScrollView) -> ())?
+    
+    weak var navigationController: UINavigationController?
 	
 	fileprivate var viewModel : CTComicDetailViewModel?
 
@@ -68,25 +70,47 @@ extension CTComicDetailView : UITableViewDelegate, UITableViewDataSource {
 		case (0, 0):
 			let cell : CTWorkingDesTableViewCell = tableView.dequeueReusableCell(withIdentifier: "CTWorkingDesTableViewCell", for: indexPath) as! CTWorkingDesTableViewCell
 			cell.detailViewModel = self.viewModel?.comicDetaiInfoViewModel
+            cell.selectionStyle = .none
 			return cell
 		case (0, 1):
 			let cell : CTOtherWorkingTableViewCell = tableView.dequeueReusableCell(withIdentifier: "CTOtherWorkingTableViewCell", for: indexPath) as! CTOtherWorkingTableViewCell
 			cell.viewModel = self.viewModel
+            cell.selectionStyle = .none
 			cell.accessoryType = .disclosureIndicator
 			return cell
 		case (0, 2):
 			let cell : CTTMonthTicketTableViewCell = tableView.dequeueReusableCell(withIdentifier: "CTTMonthTicketTableViewCell", for: indexPath) as! CTTMonthTicketTableViewCell
 			cell.detailViewModel = self.viewModel?.comicDetaiInfoViewModel
+            cell.selectionStyle = .none
 			return cell
 		case (0, 3):
 			let cell : CTLikeComicTableViewCell = tableView.dequeueReusableCell(withIdentifier: "CTLikeComicTableViewCell", for: indexPath) as! CTLikeComicTableViewCell
-			//cell.detailViewModel = self.viewModel?.comicDetaiInfoViewModel
+			cell.detailViewModel = self.viewModel
+            cell.selectionStyle = .none
+            cell.selectedGuessLikeComic = { [weak self] (_ indexPath: IndexPath) -> Void in
+                guard let weakself = self else {
+                    return
+                }
+                
+                let cellViewModel = weakself.viewModel?.guessLikeComicDataSource?[indexPath.item]
+                let comicId = cellViewModel?.comic_id ?? "0"
+                let vc = CTComicDetailViewController.init(comicid: Int.init(comicId) ?? 0)
+                weakself.navigationController?.pushViewController(vc, animated: true)
+            }
 			return cell
 		default:
 			return UITableViewCell.init()
 		}
-		
 	}
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        switch (indexPath.section, indexPath.row) {
+        case (0, 1):
+            print(indexPath)
+        default:
+            break
+        }
+    }
 	
 	func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
 		if section == 0 {

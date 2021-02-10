@@ -38,11 +38,11 @@ class CTComicDetailViewController: HZBaseViewController {
 	private var comicCatalogView : CTComicCatalogView?
     private var comicCommentView : CTComicCommentView?
 	
-	convenience init(comicid: Int) {
-		self.init()
-		self.comicId = comicid
+    convenience init(comicid: Int) {
+        self.init()
+        self.comicId = comicid
 	}
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -66,13 +66,13 @@ class CTComicDetailViewController: HZBaseViewController {
 
 	override func viewWillDisappear(_ animated: Bool) {
 		super.viewWillDisappear(animated)
-
 		self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
 	}
 	
 	func viewsLayout() -> Void {
 		
 		self.comicDetailView = CTComicDetailView.init(currViewMode: self.viewModel)
+        self.comicDetailView?.navigationController = self.navigationController
 		self.comicCatalogView = CTComicCatalogView.init(currViewMode: self.viewModel)
         self.comicCommentView = CTComicCommentView.init(currViewMode: self.viewModel)
 		
@@ -136,6 +136,12 @@ class CTComicDetailViewController: HZBaseViewController {
 		self.viewModel.comicDetailRealtime(param: param).subscribe(onNext: {(_) in
 			group.leave()
 		}).disposed(by: bag)
+        
+        group.enter()
+        self.viewModel.guessLikeComicList().subscribe(onNext: {(_) in
+            group.leave()
+        }).disposed(by: bag)
+        
 		self.comicDetailView?.ct_prepareToShow()
 		group.notify(queue: DispatchQueue.main) {
 			self.comicDetailView?.ct_makeVisble()
@@ -145,7 +151,7 @@ class CTComicDetailViewController: HZBaseViewController {
 	}
     
     func commentReqeust() -> Void {
-        let commentDicty : [String : Any] = ["object_id":self.comicId,"thread_id":self.viewModel.comicDetaiInfoViewModel.thread_id ?? 0,"page":1]
+        let commentDicty : [String : Any] = ["object_id":self.comicId,"thread_id":self.viewModel.comicDetaiInfoViewModel.thread_id ?? 0,"page":0]
         self.viewModel.comicCommentList(param: commentDicty).subscribe { [weak self] (_) in
             guard let weakself = self else {
                 return
@@ -195,8 +201,6 @@ extension CTComicDetailViewController: JXPagingViewDelegate {
 	}
 
 	func pagingView(_ pagingView: JXPagingView, initListAtIndex index: Int) -> JXPagingViewListViewDelegate {
-//		let view = CTComicDetailView.init()
-//		return view
 		if 0 == index {
 			return self.comicDetailView!
 		} else if 1 == index {
@@ -204,8 +208,6 @@ extension CTComicDetailViewController: JXPagingViewDelegate {
         } else {
             return self.comicCommentView!
         }
-		
-//		return self.comicDetailView!
 	}
 }
 

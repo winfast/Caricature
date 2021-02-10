@@ -12,7 +12,7 @@ import MJRefresh
 
 class CTComicCommentView: UIView {
     
-    let tableView : UITableView = UITableView.init(frame: .zero, style: .grouped)
+    let tableView : UITableView = UITableView.init(frame: .zero, style: .plain)
     
     var listViewDidScrollCallback: ((UIScrollView) -> ())?
     
@@ -54,40 +54,40 @@ class CTComicCommentView: UIView {
 
 extension CTComicCommentView : UITableViewDelegate, UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return self.viewModel!.comicCommentDataSource?.count ?? 0
+        return 1;
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        return self.viewModel!.comicCommentDataSource?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CTCommentTableViewCell") as! CTCommentTableViewCell
         cell.cellViewModel = self.viewModel?.comicCommentDataSource![indexPath.row]
-        return UITableViewCell.init()
+        return cell
     }
     
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        if section == 0 {
-            return nil
-        } else {
-            let view = UIView.init()
-            view.backgroundColor = .clear
-            return view
-        }
-    }
-    
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return section == 0 ? 0 : 15
-    }
-    
-    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return 0
-    }
-    
-    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        return nil
-    }
+//    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+//        if section == 0 {
+//            return nil
+//        } else {
+//            let view = UIView.init()
+//            view.backgroundColor = .clear
+//            return view
+//        }
+//    }
+//
+//    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+//        return section == 0 ? 0 : 15
+//    }
+//
+//    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+//        return 0
+//    }
+//
+//    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+//        return nil
+//    }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         self.listViewDidScrollCallback?(scrollView)

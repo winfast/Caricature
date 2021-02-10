@@ -47,9 +47,10 @@ enum CTNetworkString : String {
 	case detailStaticPath = "comic/detail_static_new"  //基本详情
 	case detailRealtimePath = "comic/detail_realtime"
     case commentListPath = "comment/list"
+    case guessLikePath = "comic/guessLike"  //猜你喜欢
 }
 
-
+//有关联值的枚举
 enum CTNetworkMoya {
 	case searchHot(param: [String : Any])
 	case searchRelative(param: [String : Any])
@@ -62,6 +63,7 @@ enum CTNetworkMoya {
 	case detailStatic(param: [String : Any])
 	case detailRealtime(param: [String : Any])
     case commentList(param: [String : Any])
+    case guessLike
 }
 
 //添加Header
@@ -110,6 +112,8 @@ extension CTNetworkMoya : TargetType {
             return CTNetworkString.detailRealtimePath.rawValue
         case .commentList:
             return CTNetworkString.commentListPath.rawValue;
+        case .guessLike:
+            return CTNetworkString.guessLikePath.rawValue;
 		default:
 			return ""
 		}

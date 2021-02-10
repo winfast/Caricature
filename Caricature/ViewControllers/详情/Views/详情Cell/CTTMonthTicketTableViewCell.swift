@@ -8,12 +8,13 @@
 import UIKit
 
 class CTTMonthTicketTableViewCell: UITableViewCell {
+    
 
 	lazy private var ticketLabel: UILabel = {
 		let label = UILabel.init()
 		label.font = HZFont(fontSize: 16)
 		label.textAlignment = .center
-		label.text = "其他作品"
+		label.text = ""
 		return label
 	}()
 	

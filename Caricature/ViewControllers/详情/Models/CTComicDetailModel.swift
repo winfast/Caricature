@@ -190,3 +190,22 @@ class CTComicCommnetModel: NSObject {
         self.nickname = dict?["nickname"] as? String ?? nil
     }
 }
+
+class CTComicGuessLikeModel: NSObject {
+    @objc dynamic var cover: String?
+    var new_comic: Bool = false
+    @objc dynamic var ori_cover: String?
+    @objc dynamic var name: String?
+    @objc dynamic var comic_id: String?
+    var short_description: String?
+    
+    init(dict: [String:Any]?) {
+        super.init()
+        self.cover = dict?["cover"] as? String ?? nil
+        self.new_comic = dict?["new_comic"] as? Bool ?? false
+        self.ori_cover = dict?["ori_cover"] as? String ?? nil
+        self.name = dict?["name"] as? String ?? nil
+        self.comic_id = dict?["comic_id"] as? String ?? nil
+        self.short_description = dict?["short_description"] as? String ?? nil
+    }
+}

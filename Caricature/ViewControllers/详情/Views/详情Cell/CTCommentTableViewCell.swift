@@ -6,10 +6,12 @@
 //
 
 import UIKit
+import Kingfisher
 
 class CTCommentTableViewCell: UITableViewCell {
     
-    var cellViewModel : CTCommentCellViewModel?
+    @objc dynamic var cellViewModel : CTCommentCellViewModel?
+    var bag : DisposeBag = DisposeBag.init()
     
     lazy var userIconImageView: UIImageView = {
         let imageView = UIImageView.init()
@@ -31,6 +33,7 @@ class CTCommentTableViewCell: UITableViewCell {
         label.textColor = .black
         label.font = HZFont(fontSize: 14)
         label.textAlignment = .left
+        label.numberOfLines = 0
         return label
     }()
     
@@ -43,10 +46,28 @@ class CTCommentTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.viewsLayout()
+        self.bindSignals()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func bindSignals() -> Void {
+        self.rx.observeWeakly(String.self, "cellViewModel.nickname").distinctUntilChanged().bind(to: self.userNameLabel.rx.text).disposed(by: bag)
+        self.rx.observeWeakly(String.self, "cellViewModel.content_filter").distinctUntilChanged().bind(to: self.commentContentLabel.rx.text).disposed(by: bag)
+        self.rx.observeWeakly(String.self, "cellViewModel.face").distinctUntilChanged().filter({ (value) -> Bool in
+            guard let _ = value else {
+                return false
+            }
+            return true
+        }).subscribe(onNext: { [weak self] (value) in
+            guard let weakself = self else {
+                return
+            }
+            
+            weakself.userIconImageView.kf.setImage(with: URL.init(string: value!))
+        }).disposed(by: bag)
     }
     
     func viewsLayout() -> Void {

@@ -8,7 +8,7 @@
 import UIKit
 
 class CTOtherWorkingTableViewCell: UITableViewCell {
-	
+
 	lazy private var otherComicLabel: UILabel = {
 		let label = UILabel.init()
 		label.font = HZFont(fontSize: 16)
