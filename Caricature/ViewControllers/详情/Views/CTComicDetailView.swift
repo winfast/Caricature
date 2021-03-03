@@ -105,8 +105,11 @@ extension CTComicDetailView : UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch (indexPath.section, indexPath.row) {
-        case (0, 1):
-            print(indexPath)
+        case (1, 0):
+            if self.viewModel?.comicOtherWorkingDataSource?.count ?? 0 > 0 {
+                let vc:CTMyComicListViewController! = CTMyComicListViewController.init(dataSource: self.viewModel!.comicOtherWorkingDataSource!)
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
         default:
             break
         }

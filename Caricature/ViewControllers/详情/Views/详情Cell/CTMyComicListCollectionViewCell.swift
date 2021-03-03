@@ -10,7 +10,7 @@ import Kingfisher
 
 class CTMyComicListCollectionViewCell: UICollectionViewCell {
     
-    var cellViewModel: CTOtherWorkCellViewModel?
+    @objc dynamic var cellViewModel: CTOtherWorkCellViewModel?
     fileprivate let bag: DisposeBag = DisposeBag.init()
     
     lazy var comicCoverImageView: UIImageView = {
@@ -46,7 +46,7 @@ class CTMyComicListCollectionViewCell: UICollectionViewCell {
         self.contentView.addSubview(self.comicCoverImageView)
         self.comicCoverImageView.snp.makeConstraints { (make) in
             make.left.right.top.equalTo(0)
-            make.height.equalTo(self.comicCoverImageView.snp.width).multipliedBy(155/111.0)
+            make.height.equalTo(self.contentView.snp.width).multipliedBy(155/111.0)
         }
         
         self.contentView.addSubview(self.comicNameLabel)
@@ -57,17 +57,17 @@ class CTMyComicListCollectionViewCell: UICollectionViewCell {
             make.width.lessThanOrEqualTo(self.contentView.snp.width).multipliedBy(0.8).priority(900)
         }
         
-        self.contentView.addSubview(self.comicCoverImageView)
-        self.comicCoverImageView.snp.makeConstraints { (make) in
+        self.contentView.addSubview(self.comicUpdateLabel)
+        self.comicUpdateLabel.snp.makeConstraints { (make) in
             make.top.equalTo(self.comicNameLabel.snp.bottom)
-            make.height.equalTo(20)
-            make.left.equalTo(10)
-            make.width.lessThanOrEqualTo(self.contentView.snp.width).multipliedBy(0.8).priority(900)
+            make.bottom.equalTo(0)
+            make.left.equalTo(self.comicNameLabel.snp.left)
+            make.width.equalTo(self.comicNameLabel.snp.width)
         }
     }
     
     func bindSignals() -> Void {
-        self.rx.observeWeakly(String.self, NSStringFromSelector(#selector(getter: cellViewModel?.coverUrl))).distinctUntilChanged().filter { (value) -> Bool in
+        self.rx.observeWeakly(String.self, "cellViewModel.coverUrl").distinctUntilChanged().filter { (value) -> Bool in
             guard let _  = value else {
                 return false
             }
@@ -76,14 +76,15 @@ class CTMyComicListCollectionViewCell: UICollectionViewCell {
             self.comicCoverImageView.kf.setImage(with: URL.init(string: value!))
         }).disposed(by: bag)
         
-        self.rx.observeWeakly(String.self, NSStringFromSelector(#selector(getter: cellViewModel?.name))).distinctUntilChanged().filter { (value) -> Bool in
+        
+        self.rx.observeWeakly(String.self, "cellViewModel.name").distinctUntilChanged().filter { (value) -> Bool in
             guard let _  = value else {
                 return false
             }
             return true
         }.bind(to: self.comicNameLabel.rx.text).disposed(by: bag)
         
-        self.rx.observeWeakly(String.self, NSStringFromSelector(#selector(getter: cellViewModel?.passChapterNum))).distinctUntilChanged().filter { (value) -> Bool in
+        self.rx.observeWeakly(String.self, "cellViewModel.passChapterNum").distinctUntilChanged().filter { (value) -> Bool in
             guard let _  = value else {
                 return false
             }
