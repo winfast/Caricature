@@ -11,8 +11,51 @@ import RxSwift
 import Moya
 import SwiftyJSON
 
+class CTSubsciberCellViewModel: NSObject {
+    var name: String?
+    var cover: String?
+    var comicId: Int = 0
+    var tags: String?
+    
+    @objc dynamic fileprivate var model: CTSubscriberItemModel?
+    
+    init(model: CTSubscriberItemModel) {
+        self.model = model
+        super.init()
+        self.bindSignals();
+    }
+    
+    func bindSignals() -> Void {
+        
+    }
+}
+
+class CTSubsciberSectionViewModel: NSObject {
+    var maxSize: Int = 0
+    var descriptionValue: String?
+    var newTitleIconUrl: String?
+    var titleIconUrl: String?
+    var comics: [CTSubsciberCellViewModel]?
+    var itemTitle: String?
+    var argValue: Int = 0
+    var canMore: Int = 0
+    var argName: String?
+    
+    @objc dynamic fileprivate var model: CTSubscriberModel?
+    
+    init(model: CTSubscriberModel) {
+        self.model = model;
+        super.init()
+        self.bindSignals();
+    }
+    
+    func bindSignals() -> Void {
+        
+    }
+}
+
 class CTSubscriberViewModel: NSObject {
-    @objc dynamic open var dataSource: [CTRecommentSectionViewModel]?
+    @objc dynamic open var dataSource: [CTSubsciberSectionViewModel]?
 
     //static let share = CTHomeNetworkManager.init()
     private let provider = MoyaProvider<CTNetworkMoya>.init(requestClosure: timeoutClosure)
@@ -45,25 +88,20 @@ class CTSubscriberViewModel: NSObject {
         }
         
         let returnDataDict: [String:Any]? = dataDict?["returnData"] as? [String:Any]
-        let comicLists : [Any]? = returnDataDict?["comicLists"] as? [Any]
+        let subscribeList : [Any]? = returnDataDict?["newSubscribeList"] as? [Any]
         
-        let comicListsModel : [CTComicListModel]? = comicLists?.filter({ (item) -> Bool in
+        let comicListsModel : [CTSubscriberModel]? = subscribeList?.filter({ (item) -> Bool in
             let temp : [String:Any]? = item as? [String :Any];
             guard let _ = temp else {
                 return false
             }
             return true
-        }).map({ (item) -> CTComicListModel in
-            return CTComicListModel.init(dict: item as! [String : Any])
+        }).map({ (item) -> CTSubscriberModel in
+            return CTSubscriberModel.init(item as! [String : Any])
         })
         
-//        let comicListsModel : [CTComicListModel]? = (comicLists?.map({ (item) -> CTComicListModel in
-//
-//            return CTComicListModel.init(dict: item as! [String : Any])
-//        }))
-        
-        self.dataSource = comicListsModel?.map({ (item) -> CTRecommentSectionViewModel in
-            return CTRecommentSectionViewModel.init(mode: item)
+        self.dataSource = comicListsModel?.map({ (item) -> CTSubsciberSectionViewModel in
+            return CTSubsciberSectionViewModel.init(model: item)
         })
     }
 }

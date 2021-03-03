@@ -48,7 +48,6 @@ class CTSubscriberViewController: HZBaseViewController {
         self.collectionView?.backgroundColor = CTBackgroundColor()
         self.collectionView?.alwaysBounceVertical = true
         self.collectionView?.contentInset = UIEdgeInsets.init(top:0, left: 0, bottom: 0, right: 0)
-        self.collectionView?.register(CTRecommendCollectionViewCell.self, forCellWithReuseIdentifier: "CTRecommendCollectionViewCell")
         self.collectionView?.register(CTRecommendHeaderCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "CTRecommendHeaderCollectionReusableView")
         self.collectionView?.register(CTRecommendFooterCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: "CTRecommendFooterCollectionReusableView")
         self.view.addSubview(self.collectionView!)
@@ -76,27 +75,27 @@ extension CTSubscriberViewController: UICollectionViewDelegate, UICollectionView
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell =  collectionView.dequeueReusableCell(withReuseIdentifier: "CTRecommendCollectionViewCell", for: indexPath) as! CTRecommendCollectionViewCell
-        cell.backgroundColor = .white
-        let sectionViewModel = self.viewModel.dataSource![indexPath.section]
-        cell.cellViewModel = sectionViewModel.comics![indexPath.item]
-        return cell
+//        let cell =  collectionView.dequeueReusableCell(withReuseIdentifier: "CTRecommendCollectionViewCell", for: indexPath) as! CTRecommendCollectionViewCell
+//        cell.backgroundColor = .white
+//        let sectionViewModel = self.viewModel.dataSource![indexPath.section]
+//        cell.cellViewModel = sectionViewModel.comics![indexPath.item]
+        return UICollectionViewCell.init()
     }
     
-    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        if kind == UICollectionView.elementKindSectionHeader {
-            let headerView : CTRecommendHeaderCollectionReusableView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "CTRecommendHeaderCollectionReusableView", for: indexPath) as! CTRecommendHeaderCollectionReusableView
-            let sectionViewModel = self.viewModel.dataSource![indexPath.section]
-            let count = sectionViewModel.comics?.count ?? 0
-            headerView.backgroundColor = count > 0 ? .white : .clear
-            headerView.sectionViewModel = self.viewModel.dataSource![indexPath.section]
-            return headerView
-        } else {
-            let footerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "CTRecommendFooterCollectionReusableView", for: indexPath)
-            footerView.backgroundColor = .clear
-            return footerView
-        }
-    }
+//    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+//        if kind == UICollectionView.elementKindSectionHeader {
+////            let headerView : CTRecommendHeaderCollectionReusableView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "CTRecommendHeaderCollectionReusableView", for: indexPath) as! CTRecommendHeaderCollectionReusableView
+////            let sectionViewModel = self.viewModel.dataSource![indexPath.section]
+////            let count = sectionViewModel.comics?.count ?? 0
+////            headerView.backgroundColor = count > 0 ? .white : .clear
+////            headerView.sectionViewModel = self.viewModel.dataSource![indexPath.section]
+////            return headerView
+//        } else {
+//            let footerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "CTRecommendFooterCollectionReusableView", for: indexPath)
+//            footerView.backgroundColor = .clear
+//            return footerView
+//        }
+//    }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize.init(width: 1, height: 160)

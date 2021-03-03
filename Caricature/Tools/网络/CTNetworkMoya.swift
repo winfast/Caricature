@@ -36,7 +36,7 @@ enum CTNetworkString : String {
 	case searchHotPath = "search/hotkeywordsnew"
 	case searchRelativePath = "search/relative"
 	case searchResultPath = "search/searchResult"
-    case subscribeListPath = "";
+    case subscribeListPath = "list/newSubscribeList"; //订阅列表
 	
 	
 	case boutiqueListPath = "comic/boutiqueListNew"
@@ -48,7 +48,7 @@ enum CTNetworkString : String {
 	case detailStaticPath = "comic/detail_static_new"  //基本详情
 	case detailRealtimePath = "comic/detail_realtime"
     case commentListPath = "comment/list"
-    case guessLikePath = "list/newSubscribeList"  //订阅列表
+    case guessLikePath = "comic/guessLike"
 }
 
 //有关联值的枚举
