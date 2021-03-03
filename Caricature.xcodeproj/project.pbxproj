@@ -10,6 +10,7 @@
 		042A1D3425553158004F2D80 /* CTSearchHeaderTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042A1D3325553158004F2D80 /* CTSearchHeaderTableView.swift */; };
 		042AFF1C2560B78A005226A1 /* CTComicCotalogCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042AFF1B2560B78A005226A1 /* CTComicCotalogCollectionViewCell.swift */; };
 		042AFF1F256154CE005226A1 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042AFF1E256154CE005226A1 /* String+Extension.swift */; };
+		044A905125EF5C67007564F7 /* CTSubscriberViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044A905025EF5C67007564F7 /* CTSubscriberViewModel.swift */; };
 		044E5B0E25481143007B4FF2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044E5B0D25481143007B4FF2 /* AppDelegate.swift */; };
 		044E5B1725481145007B4FF2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 044E5B1625481145007B4FF2 /* Assets.xcassets */; };
 		044E5B1A25481145007B4FF2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 044E5B1825481145007B4FF2 /* LaunchScreen.storyboard */; };
@@ -78,6 +79,7 @@
 		042A1D3325553158004F2D80 /* CTSearchHeaderTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CTSearchHeaderTableView.swift; sourceTree = "<group>"; };
 		042AFF1B2560B78A005226A1 /* CTComicCotalogCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CTComicCotalogCollectionViewCell.swift; sourceTree = "<group>"; };
 		042AFF1E256154CE005226A1 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
+		044A905025EF5C67007564F7 /* CTSubscriberViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CTSubscriberViewModel.swift; sourceTree = "<group>"; };
 		044E5B0A25481143007B4FF2 /* Caricature.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Caricature.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		044E5B0D25481143007B4FF2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		044E5B1625481145007B4FF2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -298,6 +300,7 @@
 				04A81B9B2553E67D00188392 /* CTVIPViewModel.swift */,
 				04A81B9C2553E67D00188392 /* CTRecommentCellViewModel.swift */,
 				04A81B9D2553E67D00188392 /* CTRankingViewModel.swift */,
+				044A905025EF5C67007564F7 /* CTSubscriberViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -698,6 +701,7 @@
 				04A81BD52553F59700188392 /* CTMineHeadView.swift in Sources */,
 				044E5B82254814BC007B4FF2 /* HZImage.swift in Sources */,
 				04A81BB22553E67D00188392 /* CTRankingItemModel.swift in Sources */,
+				044A905125EF5C67007564F7 /* CTSubscriberViewModel.swift in Sources */,
 				04A81BBB2553E67D00188392 /* CTRecommendFooterCollectionReusableView.swift in Sources */,
 				04AF3BA9255A8A7000742E83 /* CTComicCatalogView.swift in Sources */,
 				0489259825D2692600487917 /* CTMyComicListViewController.swift in Sources */,
