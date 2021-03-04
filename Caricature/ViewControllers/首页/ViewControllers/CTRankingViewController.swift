@@ -61,8 +61,13 @@ extension CTRankingViewController: UITableViewDelegate, UITableViewDataSource {
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		let cell: CTRankingTableViewCell = tableView.dequeueReusableCell(withIdentifier: "CTRankingTableViewCell") as! CTRankingTableViewCell
 		cell.cellViewModel = self.viewModel.dataSource![indexPath.section]
+        cell.selectionStyle = .none
 		return cell
 	}
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print(indexPath)
+    }
 	
 	func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
 		return UIView.init()

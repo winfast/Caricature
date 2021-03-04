@@ -12,10 +12,12 @@ import Moya
 import SwiftyJSON
 
 class CTSubsciberCellViewModel: NSObject {
-    var name: String?
-    var cover: String?
-    var comicId: Int = 0
+    @objc dynamic  var name: String?
+    @objc dynamic var cover: String?
+    @objc dynamic var comicId: Int = 0
     var tags: String?
+    
+    let bag = DisposeBag.init()
     
     @objc dynamic fileprivate var model: CTSubscriberItemModel?
     
@@ -26,7 +28,26 @@ class CTSubsciberCellViewModel: NSObject {
     }
     
     func bindSignals() -> Void {
+        self.rx.observeWeakly(Int.self, "model.comicId").subscribe(onNext: { [weak self] (value) in
+            guard let weakself = self else {
+                return
+            }
+            weakself.comicId = value ?? 0;
+        }).disposed(by: bag)
         
+        self.rx.observeWeakly(String.self, "model.name").subscribe(onNext: { [weak self] (value) in
+            guard let weakself = self else {
+                return
+            }
+            weakself.name = value;
+        }).disposed(by: bag)
+        
+        self.rx.observeWeakly(String.self, "model.cover").subscribe(onNext: { [weak self] (value) in
+            guard let weakself = self else {
+                return
+            }
+            weakself.cover = value;
+        }).disposed(by: bag)
     }
 }
 
@@ -34,12 +55,14 @@ class CTSubsciberSectionViewModel: NSObject {
     var maxSize: Int = 0
     var descriptionValue: String?
     var newTitleIconUrl: String?
-    var titleIconUrl: String?
-    var comics: [CTSubsciberCellViewModel]?
-    var itemTitle: String?
-    var argValue: Int = 0
+    @objc dynamic var titleIconUrl: String?
+    @objc dynamic var comics: [CTSubsciberCellViewModel]?
+    @objc dynamic var itemTitle: String?
+    var argValue: String?
     var canMore: Int = 0
     var argName: String?
+    
+    let bag = DisposeBag.init()
     
     @objc dynamic fileprivate var model: CTSubscriberModel?
     
@@ -50,7 +73,43 @@ class CTSubsciberSectionViewModel: NSObject {
     }
     
     func bindSignals() -> Void {
+        self.rx.observeWeakly(Array<CTSubscriberItemModel>.self, "model.comics").subscribe(onNext: { [weak self] (value) in
+            guard let weakself = self else {
+                return
+            }
+            weakself.comics = value?.map({ (item: CTSubscriberItemModel) -> CTSubsciberCellViewModel in
+                return CTSubsciberCellViewModel.init(model: item)
+            });
+        }).disposed(by: bag)
         
+        self.rx.observeWeakly(String.self, "model.itemTitle").subscribe(onNext: { [weak self] (value) in
+            guard let weakself = self else {
+                return
+            }
+            weakself.itemTitle = value;
+        }).disposed(by: bag)
+        
+        self.rx.observeWeakly(String.self, "model.titleIconUrl").subscribe(onNext: { [weak self] (value) in
+            guard let weakself = self else {
+                return
+            }
+            weakself.titleIconUrl = value;
+        }).disposed(by: bag)
+        
+        
+        self.rx.observeWeakly(String.self, "model.argValue").subscribe(onNext: { [weak self] (value) in
+            guard let weakself = self else {
+                return
+            }
+            weakself.argValue = value;
+        }).disposed(by: bag)
+        
+        self.rx.observeWeakly(String.self, "model.argName").subscribe(onNext: { [weak self] (value) in
+            guard let weakself = self else {
+                return
+            }
+            weakself.argName = value;
+        }).disposed(by: bag)
     }
 }
 
@@ -88,6 +147,7 @@ class CTSubscriberViewModel: NSObject {
         }
         
         let returnDataDict: [String:Any]? = dataDict?["returnData"] as? [String:Any]
+        print(returnDataDict?.description);
         let subscribeList : [Any]? = returnDataDict?["newSubscribeList"] as? [Any]
         
         let comicListsModel : [CTSubscriberModel]? = subscribeList?.filter({ (item) -> Bool in

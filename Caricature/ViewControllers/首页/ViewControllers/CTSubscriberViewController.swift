@@ -43,7 +43,7 @@ class CTSubscriberViewController: HZBaseViewController {
         self.collectionView?.backgroundColor = CTBackgroundColor()
         self.collectionView?.alwaysBounceVertical = true
         self.collectionView?.contentInset = UIEdgeInsets.init(top:0, left: 0, bottom: 0, right: 0)
-        self.collectionView?.register(CTSubscriberHeaderCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "CTRecommendHeaderCollectionReusableView")
+        self.collectionView?.register(CTSubscriberHeaderCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "CTSubscriberHeaderCollectionReusableView")
         self.collectionView?.register(CTRecommendFooterCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: "CTRecommendFooterCollectionReusableView")
         self.collectionView?.register(CTSubscriberCollectionViewCell.self, forCellWithReuseIdentifier: "CTSubscriberCollectionViewCell")
         self.view.addSubview(self.collectionView!)
@@ -71,8 +71,8 @@ extension CTSubscriberViewController: UICollectionViewDelegate, UICollectionView
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell =  collectionView.dequeueReusableCell(withReuseIdentifier: "CTSubscriberCollectionViewCell", for: indexPath) as! CTSubscriberCollectionViewCell
         cell.backgroundColor = .white
-//        let sectionViewModel = self.viewModel.dataSource![indexPath.section]
-//        cell.cellViewModel = sectionViewModel.comics![indexPath.item]
+        let sectionViewModel = self.viewModel.dataSource![indexPath.section]
+        cell.cellViewModel = sectionViewModel.comics![indexPath.item]
         return cell
     }
     
@@ -83,6 +83,16 @@ extension CTSubscriberViewController: UICollectionViewDelegate, UICollectionView
             let count = sectionViewModel.comics?.count ?? 0
             headerView.backgroundColor = count > 0 ? .white : .clear
             headerView.sectionViewModel = self.viewModel.dataSource![indexPath.section]
+            headerView.clickMoreBntBlock = { [weak self] (_ sender: UIButton) in
+                guard let weakself = self else {
+                    return
+                }
+                let sectionViewModel = weakself.viewModel.dataSource![indexPath.section];
+                let vc = CTComicListViewController.init(argName: sectionViewModel.argName ?? "", argValue: Int(sectionViewModel.argValue ?? "0") ?? 0) 
+                //vc.nav
+                vc.navigationItem.title = sectionViewModel.itemTitle
+                weakself.navigationController?.pushViewController(vc, animated: true)
+            }
             return headerView
         } else {
             let footerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "CTRecommendFooterCollectionReusableView", for: indexPath)
@@ -92,7 +102,7 @@ extension CTSubscriberViewController: UICollectionViewDelegate, UICollectionView
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize.init(width: 1, height: 160)
+        return CGSize.init(width: 1, height: 240)
     }
     
     //设置header高度

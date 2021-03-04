@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 
 class CTSubscriberHeaderCollectionReusableView: UICollectionReusableView {
@@ -87,7 +88,7 @@ class CTSubscriberHeaderCollectionReusableView: UICollectionReusableView {
             .bind(to: self.titleLabel.rx.text)
             .disposed(by: disposeBag)
         
-        self.rx.observeWeakly(String.self, "sectionViewModel.newTitleIconUrl").distinctUntilChanged().filter { (value) -> Bool in
+        self.rx.observeWeakly(String.self, "sectionViewModel.titleIconUrl").distinctUntilChanged().filter { (value) -> Bool in
             guard let _  = value else {
                 return false
             }
@@ -106,6 +107,9 @@ class CTSubscriberCollectionViewCell: UICollectionViewCell {
         return imageView
     }()
     
+    @objc dynamic var cellViewModel: CTSubsciberCellViewModel?
+    private var bag = DisposeBag.init()
+    
     lazy var titleLabel: UILabel = {
         let label = UILabel.init()
         label.font = HZFont(fontSize: 12)
@@ -116,6 +120,7 @@ class CTSubscriberCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         viewsLayout()
+        bindSignals()
     }
     
     required init?(coder: NSCoder) {
@@ -126,7 +131,7 @@ class CTSubscriberCollectionViewCell: UICollectionViewCell {
         contentView.addSubview(imageView)
         imageView.snp.makeConstraints { (make) in
             make.top.left.right.equalTo(0);
-            make.bottom.equalTo(contentView.snp.bottom).offset(-20)
+            make.bottom.equalTo(contentView.snp.bottom).offset(-35)
         }
         
         contentView.addSubview(titleLabel)
@@ -134,11 +139,24 @@ class CTSubscriberCollectionViewCell: UICollectionViewCell {
             make.left.equalTo(10);
             make.top.equalTo(imageView.snp.bottom)
             make.width.equalTo(contentView.snp.width).offset(-20)
-            make.height.equalTo(20)
+            make.height.equalTo(25)
         }
     }
     
     func bindSignals() -> Void {
-        
+        self.rx.observeWeakly(String.self, "cellViewModel.name").distinctUntilChanged().bind(to: self.titleLabel.rx.text).disposed(by: bag)
+        self.rx.observeWeakly(String.self, "cellViewModel.cover").distinctUntilChanged().filter({ (value) -> Bool in
+            guard let _ = value else {
+                return false
+            }
+            return true
+        }).subscribe(onNext: { [weak self] (value) in
+            guard let weakself = self else {
+                return
+            }
+            
+            weakself.imageView.kf.setImage(with: URL.init(string: value!))
+            
+        }).disposed(by: bag)
     }
 }
