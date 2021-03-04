@@ -12,10 +12,6 @@ import ZLCollectionViewFlowLayout
 
 class CTSubscriberViewController: HZBaseViewController {
 	
-    //懒加载
-//    lazy private var viewModel: CTRecommentViewModel = {
-//        return CTRecommentViewModel.init()
-//    }()
     private let viewModel: CTSubscriberViewModel = CTSubscriberViewModel.init()
     var collectionView: UICollectionView?
     let disposeBag: DisposeBag = DisposeBag.init()
@@ -36,7 +32,6 @@ class CTSubscriberViewController: HZBaseViewController {
     func viewsLayout() -> Void {
         let flowerLayout = ZLCollectionViewVerticalLayout.init()
         flowerLayout.layoutType = ZLLayoutType.init(rawValue: 3)
-        //flowerLayout.itemSize = CGSize.init(width: (HZSCreenWidth() - 5.0) * 0.5, height: 90.0)
         flowerLayout.minimumLineSpacing = 10
         flowerLayout.delegate = self
         flowerLayout.minimumInteritemSpacing = 5
@@ -48,16 +43,15 @@ class CTSubscriberViewController: HZBaseViewController {
         self.collectionView?.backgroundColor = CTBackgroundColor()
         self.collectionView?.alwaysBounceVertical = true
         self.collectionView?.contentInset = UIEdgeInsets.init(top:0, left: 0, bottom: 0, right: 0)
-        self.collectionView?.register(CTRecommendHeaderCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "CTRecommendHeaderCollectionReusableView")
+        self.collectionView?.register(CTSubscriberHeaderCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "CTRecommendHeaderCollectionReusableView")
         self.collectionView?.register(CTRecommendFooterCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: "CTRecommendFooterCollectionReusableView")
+        self.collectionView?.register(CTSubscriberCollectionViewCell.self, forCellWithReuseIdentifier: "CTSubscriberCollectionViewCell")
         self.view.addSubview(self.collectionView!)
         self.collectionView?.snp.makeConstraints({ (make) in
             make.edges.equalTo(0)
         })
     }
-
 }
-
 
 extension CTSubscriberViewController: UICollectionViewDelegate, UICollectionViewDataSource,ZLCollectionViewBaseFlowLayoutDelegate {
     
@@ -75,27 +69,27 @@ extension CTSubscriberViewController: UICollectionViewDelegate, UICollectionView
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-//        let cell =  collectionView.dequeueReusableCell(withReuseIdentifier: "CTRecommendCollectionViewCell", for: indexPath) as! CTRecommendCollectionViewCell
-//        cell.backgroundColor = .white
+        let cell =  collectionView.dequeueReusableCell(withReuseIdentifier: "CTSubscriberCollectionViewCell", for: indexPath) as! CTSubscriberCollectionViewCell
+        cell.backgroundColor = .white
 //        let sectionViewModel = self.viewModel.dataSource![indexPath.section]
 //        cell.cellViewModel = sectionViewModel.comics![indexPath.item]
-        return UICollectionViewCell.init()
+        return cell
     }
     
-//    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-//        if kind == UICollectionView.elementKindSectionHeader {
-////            let headerView : CTRecommendHeaderCollectionReusableView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "CTRecommendHeaderCollectionReusableView", for: indexPath) as! CTRecommendHeaderCollectionReusableView
-////            let sectionViewModel = self.viewModel.dataSource![indexPath.section]
-////            let count = sectionViewModel.comics?.count ?? 0
-////            headerView.backgroundColor = count > 0 ? .white : .clear
-////            headerView.sectionViewModel = self.viewModel.dataSource![indexPath.section]
-////            return headerView
-//        } else {
-//            let footerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "CTRecommendFooterCollectionReusableView", for: indexPath)
-//            footerView.backgroundColor = .clear
-//            return footerView
-//        }
-//    }
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        if kind == UICollectionView.elementKindSectionHeader {
+            let headerView : CTSubscriberHeaderCollectionReusableView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "CTSubscriberHeaderCollectionReusableView", for: indexPath) as! CTSubscriberHeaderCollectionReusableView
+            let sectionViewModel = self.viewModel.dataSource![indexPath.section]
+            let count = sectionViewModel.comics?.count ?? 0
+            headerView.backgroundColor = count > 0 ? .white : .clear
+            headerView.sectionViewModel = self.viewModel.dataSource![indexPath.section]
+            return headerView
+        } else {
+            let footerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "CTRecommendFooterCollectionReusableView", for: indexPath)
+            footerView.backgroundColor = .clear
+            return footerView
+        }
+    }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize.init(width: 1, height: 160)

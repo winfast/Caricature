@@ -71,6 +71,7 @@ class HZTabBarController: UITabBarController {
 			vc.tabBarItem = barItem
 			vc.title = itemTitlesArray[index]
 			barItem.tag = index
+            barItem.imageInsets = UIEdgeInsets(top: 6, left: 0, bottom: -6, right: 0)
 			barItem.setTitleTextAttributes([NSAttributedString.Key.foregroundColor : UIColor.black], for: .selected)
 			let navigation = HZNavigationController.init(rootViewController: vc);
 			viewControllers.append(navigation)

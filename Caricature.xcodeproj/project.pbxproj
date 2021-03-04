@@ -28,6 +28,7 @@
 		044E5B83254814BC007B4FF2 /* MBProgressHudToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044E5B79254814BC007B4FF2 /* MBProgressHudToast.swift */; };
 		044E5B84254814BC007B4FF2 /* HZColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044E5B7A254814BC007B4FF2 /* HZColor.swift */; };
 		04675220255B841100FAB64B /* CTComicDetailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0467521F255B841100FAB64B /* CTComicDetailModel.swift */; };
+		047435C425F0BC2D00A8916A /* CTSubscriberCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047435BF25F0BA1600A8916A /* CTSubscriberCollectionViewCell.swift */; };
 		04770BB9255BE49800E8BB6C /* CTTMonthTicketTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04770BB8255BE49800E8BB6C /* CTTMonthTicketTableViewCell.swift */; };
 		04770BBE255BE4B000E8BB6C /* CTOtherWorkingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04770BBD255BE4B000E8BB6C /* CTOtherWorkingTableViewCell.swift */; };
 		04770BC1255BE4BF00E8BB6C /* CTWorkingDesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04770BC0255BE4BF00E8BB6C /* CTWorkingDesTableViewCell.swift */; };
@@ -101,6 +102,7 @@
 		044E5B79254814BC007B4FF2 /* MBProgressHudToast.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MBProgressHudToast.swift; sourceTree = "<group>"; };
 		044E5B7A254814BC007B4FF2 /* HZColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HZColor.swift; sourceTree = "<group>"; };
 		0467521F255B841100FAB64B /* CTComicDetailModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CTComicDetailModel.swift; sourceTree = "<group>"; };
+		047435BF25F0BA1600A8916A /* CTSubscriberCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CTSubscriberCollectionViewCell.swift; sourceTree = "<group>"; };
 		04770BB8255BE49800E8BB6C /* CTTMonthTicketTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CTTMonthTicketTableViewCell.swift; sourceTree = "<group>"; };
 		04770BBD255BE4B000E8BB6C /* CTOtherWorkingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CTOtherWorkingTableViewCell.swift; sourceTree = "<group>"; };
 		04770BC0255BE4BF00E8BB6C /* CTWorkingDesTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CTWorkingDesTableViewCell.swift; sourceTree = "<group>"; };
@@ -337,6 +339,7 @@
 				04A81BAA2553E67D00188392 /* CTRecommendCollectionViewCell.swift */,
 				04A81BAB2553E67D00188392 /* CTRecommendFooterCollectionReusableView.swift */,
 				04A81BAC2553E67D00188392 /* CTRankingTableViewCell.swift */,
+				047435BF25F0BA1600A8916A /* CTSubscriberCollectionViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -683,6 +686,7 @@
 				044E5B63254813E6007B4FF2 /* HZNavigationController.swift in Sources */,
 				04770BC4255BE4CF00E8BB6C /* CTLikeComicTableViewCell.swift in Sources */,
 				04C0964D255637AB00023C80 /* CTSearchViewModel.swift in Sources */,
+				047435C425F0BC2D00A8916A /* CTSubscriberCollectionViewCell.swift in Sources */,
 				04795EF625522B27004270E4 /* CTNetworkMoya.swift in Sources */,
 				04A81BBA2553E67D00188392 /* CTRecommendCollectionViewCell.swift in Sources */,
 				04A81BB72553E67D00188392 /* CTSubscriberViewController.swift in Sources */,
