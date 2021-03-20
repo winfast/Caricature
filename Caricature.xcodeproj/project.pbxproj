@@ -33,6 +33,7 @@
 		04770BBE255BE4B000E8BB6C /* CTOtherWorkingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04770BBD255BE4B000E8BB6C /* CTOtherWorkingTableViewCell.swift */; };
 		04770BC1255BE4BF00E8BB6C /* CTWorkingDesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04770BC0255BE4BF00E8BB6C /* CTWorkingDesTableViewCell.swift */; };
 		04770BC4255BE4CF00E8BB6C /* CTLikeComicTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04770BC3255BE4CF00E8BB6C /* CTLikeComicTableViewCell.swift */; };
+		0478DC7A25FF3E60001EE0E7 /* TSTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0478DC7925FF3E60001EE0E7 /* TSTestView.swift */; };
 		04795EF625522B27004270E4 /* CTNetworkMoya.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04795EF525522B27004270E4 /* CTNetworkMoya.swift */; };
 		0489259025D231CA00487917 /* CTComicDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0489258F25D231CA00487917 /* CTComicDetailViewModel.swift */; };
 		0489259825D2692600487917 /* CTMyComicListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0489259725D2692600487917 /* CTMyComicListViewController.swift */; };
@@ -107,6 +108,7 @@
 		04770BBD255BE4B000E8BB6C /* CTOtherWorkingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CTOtherWorkingTableViewCell.swift; sourceTree = "<group>"; };
 		04770BC0255BE4BF00E8BB6C /* CTWorkingDesTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CTWorkingDesTableViewCell.swift; sourceTree = "<group>"; };
 		04770BC3255BE4CF00E8BB6C /* CTLikeComicTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CTLikeComicTableViewCell.swift; sourceTree = "<group>"; };
+		0478DC7925FF3E60001EE0E7 /* TSTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TSTestView.swift; sourceTree = "<group>"; };
 		04795EF525522B27004270E4 /* CTNetworkMoya.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CTNetworkMoya.swift; sourceTree = "<group>"; };
 		0489258F25D231CA00487917 /* CTComicDetailViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CTComicDetailViewModel.swift; sourceTree = "<group>"; };
 		0489259725D2692600487917 /* CTMyComicListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CTMyComicListViewController.swift; sourceTree = "<group>"; };
@@ -405,6 +407,7 @@
 				04AF3BA5255A8A2F00742E83 /* CTComicDetailView.swift */,
 				04AF3BA8255A8A7000742E83 /* CTComicCatalogView.swift */,
 				04AF3BAB255A8ABF00742E83 /* CTComicCommentView.swift */,
+				0478DC7925FF3E60001EE0E7 /* TSTestView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -663,6 +666,7 @@
 				049E48F525541F2800EE5B20 /* CTSettingViewController.swift in Sources */,
 				04AF39A3255A41FE00742E83 /* CTComicListViewController.swift in Sources */,
 				042AFF1C2560B78A005226A1 /* CTComicCotalogCollectionViewCell.swift in Sources */,
+				0478DC7A25FF3E60001EE0E7 /* TSTestView.swift in Sources */,
 				04AF3BA6255A8A2F00742E83 /* CTComicDetailView.swift in Sources */,
 				044A905425EF65B5007564F7 /* CTSubscriberModel.swift in Sources */,
 				04A81BB92553E67D00188392 /* CTRecommendHeaderCollectionReusableView.swift in Sources */,
